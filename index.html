@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bonjour</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.min.js"></script>
+    <script src="bower_components/angular-google-maps/dist/angular-google-maps.min.js"></script>
+    <script src="bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=fr"></script>
+</head>
+
+<body ng-app="myApp" class="container">
+    <center>
+        <div class="searchBar">
+            <h2>Ou souhaitez-vous commander ?</h2>
+            <div class="inputAdress">
+                <img src="img/Icone geolocalisation.png">
+                <input type="text" ng-model="query" placeholder="Rechechez une adresse ..." />
+            </div>
+        </div>
+        <div class="divInfo" ng-controller="initCtrl">
+            <div class="infoRestaurant">
+                <div ng-repeat="restaurant in restaurants | filter :{adress:query}" class="divInfos">
+                    <div class="blocInfo1">
+                        <div class="imgPing">
+                            <img src="img/pins.png">
+                            <p class="count">{{$index + 1}}</p>
+                        </div>
+                        <div class="infoShop">
+                            <h1> {{restaurant.name | uppercase}} </h1>
+                            <p> {{restaurant.adress | uppercase}} </p>
+                            <p> {{restaurant.postal | uppercase}} </p>
+                        </div>
+                    </div>
+                    <div class="links">
+                        <a href="#"> LIVRAISON </a>
+                        <a href="#"> A EMPORTER</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mapView">
+                <div id="map"></div>
+                {{ filtered }}
+            </div>
+        </div>
+        <script>
+        var app = angular.module('myApp', []);
+
+
+        app.controller('initCtrl', function($scope, $filter) {
+            $scope.restaurants = [{
+                "name": "Nakee's shop",
+                "adress": "4 rue surson",
+                "postal": "33300 Bordeaux",
+                lat: 48.8569,
+                long: 2.3537
+            }, {
+                "name": "Macdo",
+                "adress": "26 avenue frayce",
+                "postal": "93400 Saint-ouen",
+                lat: 48.871799,
+                long: 2.386071
+            }, {
+                "name": "Nakee's shop",
+                "adress": "16 rue mederic",
+                "postal": "94120 Fontenay-sous-bois",
+                lat: 48.8483,
+                long: 2.3958
+            }, {
+                "name": "Bistrot",
+                "adress": "2 villa serre",
+                "postal": "94300 Vincennes",
+                lat: 48.8478,
+                long: 2.3065
+            }]
+
+            var mapOptions = {
+                zoom: 12,
+                center: new google.maps.LatLng(48.856614, 2.3522219000000177),
+                mapTypeId: google.maps.MapTypeId.TERRAIN,
+            }
+
+            $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+            var markers = [];
+
+            var labels = '12345';
+            $scope.labelIndex = 0;
+            var infoWindow = new google.maps.InfoWindow();
+
+            var createMarker = function(info) {
+                if ($scope.count == 1) {
+                    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                    var markers = [];
+                    var infoWindow = new google.maps.InfoWindow();
+                    $scope.count = 0;
+                }
+
+                $scope.marker = new google.maps.Marker({
+                    map: $scope.map,
+                    position: new google.maps.LatLng(info.lat, info.long),
+                    icon: 'img/pins.png',
+                    labelClass: "labels",
+                    label: {
+                        text: labels[$scope.labelIndex++ % labels.length],
+                        color: 'white'
+                    }
+                });
+
+                if (navigator.geolocation)
+                    var watchId = navigator.geolocation.watchPosition(successCallback,
+                        null, {
+                            enableHighAccuracy: true
+                        });
+                else
+                    alert("Error location");
+
+                function successCallback(position) {
+                    var markerGeoloc = new google.maps.Marker({
+                        position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                        map: $scope.map,
+                        icon: 'img/pinsGeoloc.png'
+                    });
+                }
+            }
+
+
+            $scope.$watch('query', function(val) {
+                $scope.count = 1;
+                $scope.labelIndex = 0;
+                var results = [];
+                var results = $filter('filter')($scope.restaurants, {
+                    adress: $scope.query
+                });
+                for (i = 0; i < results.length; i++) {
+                    createMarker(results[i]);
+                }
+            });
+
+        });
+        </script>
+    </center>
+</body>
+
+</html>

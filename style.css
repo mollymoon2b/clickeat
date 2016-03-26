@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+}
+
+.container {
+	margin-top: 100px;
+    background-color: #f5f5f6;
+}
+
+input {
+    border: none;
+    background-color: #efefef;
+}
+
+input:focus {
+    outline:  none;
+}
+
+.labels {
+	color: white;
+}
+
+/* Style of search bar */
+
+.searchBar {
+	text-align: left;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid grey;
+    width: 1000px;
+}
+
+.searchBar h2 {
+	font-size: 30px;
+    color: #fdc718;
+}
+
+.inputAdress {
+    border: solid 1px #a9a9ab;
+    height: 37px;
+    line-height: 37px;
+    background-color: #efefef;
+}
+
+.inputAdress input {
+    margin-left: 5px;
+    width: 70%;
+}
+
+.inputAdress img {
+    float: left;
+    padding: 5px;
+    width: 25px;
+}
+
+
+/* Style of information restaurants */
+
+.divInfo{
+	width: 100%;
+	margin-top: 10px;
+	height: 456px;
+}
+
+.infoRestaurant {
+	vertical-align: top;
+    display: inline-block;
+    width: 357px;
+  	height: 453px;
+    margin-right: 8px;
+}
+
+.divInfos {
+	background-color: white;
+    border: solid 1px #a9a9ab;
+    margin-bottom: 10px;
+    height: 104px;
+    width: 330px;
+	padding: 10px 10px 0px 10px;
+}
+
+.infoShop {
+	text-align: left;
+	padding: 5px 0px 16px 6px;
+}
+
+.infoShop h1 {
+	font-size: 18px;
+}
+
+.infoShop p {
+	font-size: 13px;
+}
+
+.imgPing {
+	clear: both;
+	height: 49px;
+    float: left;
+}
+
+.imgPing img {
+	width: 68%;
+}
+
+.count{
+	color: white;
+	margin: -28px 1px 0px 0px;
+}
+
+.links a {
+	font-size: 13px;
+	padding: 4px 38px 4px 38px;
+	border: 1px solid #fdc718;
+	text-align: center;
+	text-decoration: none;
+	color: #fdc718;
+	border-radius: 3px;
+}
+
+.links a:hover {
+	font-size: 13px;
+	padding: 4px 37px 4px 37px;
+	border: 2px solid #e5e5e5;
+	text-align: center;
+	text-decoration: none;
+	color: #e5e5e5;
+	border-radius: 3px;
+}
+
+/* Style of the div for the map view */
+
+.mapView {
+	width: 650px;
+	vertical-align: top;
+	border: solid 1px #a9a9ab;
+	background-color: white;
+    display: inline-block;
+    height: 108%;
+}
+
+#map{
+    height: 100%; 
+    width: 100%;
+    }
